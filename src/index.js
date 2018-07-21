@@ -9,6 +9,7 @@ import './index.css';
 import Particles from 'react-particles-js';
 
 import particlesParams from './particles-params';
+import AppRouter from './views/components/AppRouter';
 
 const store = createStore({
   auth: {
@@ -37,8 +38,10 @@ const store = createStore({
 ReactDOM.render(
   <BrowserRouter>
     <Provider store={store}>
-      {/* <div>TEST</div> */}
-      <Particles params={particlesParams} />
+      <React.Fragment>
+        <AppRouter />
+        <Particles className="Particles" params={particlesParams} />
+      </React.Fragment>
     </Provider>
   </BrowserRouter>,
   document.getElementById('root')

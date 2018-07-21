@@ -1,7 +1,7 @@
 const getIsAuthorized = state => state.auth.isAuthorized;
 
-const getLoginErrorReducer = state => state.auth.loginErrorReducer;
+const getLoginError = state => state.auth.loginError;
 
-const getRegistationErrorReducer = state => state.auth.registationErrorReducer;
+const getRegistationError = state => state.auth.registationError;
 
-export { getIsAuthorized, getLoginErrorReducer, getRegistationErrorReducer };
+export { getIsAuthorized, getLoginError, getRegistationError };

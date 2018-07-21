@@ -4,6 +4,6 @@ export { authorize, logout, loginError, registationError } from './actions';
 
 export {
   getIsAuthorized,
-  getLoginErrorReducer,
-  getRegistationErrorReducer
+  getLoginError,
+  getRegistationError
 } from './selectors';
