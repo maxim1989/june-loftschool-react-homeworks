@@ -1,15 +1,45 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from 'components/App';
+import createStore from 'store';
 import { Provider } from 'react-redux';
-import createStore from './store';
+import { BrowserRouter } from 'react-router-dom';
 
-const store = createStore();
+import './index.css';
+
+import Particles from 'react-particles-js';
+
+import particlesParams from './particles-params';
+
+const store = createStore({
+  auth: {
+    isAuthorized: false,
+    loginError: null,
+    registationError: null
+  }
+  //   network: {
+  //     error: null,
+  //     message: null
+  //   },
+  //   users: {
+  //     data: null,
+  //     error: null,
+  //     isFetched: false,
+  //     isFetching: false
+  //   },
+  //   followers: {
+  //     ids: [],
+  //     error: null,
+  //     isFetched: false,
+  //     isFetching: false
+  //   }
+});
 
 ReactDOM.render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
-  document.getElementById('root'),
+  <BrowserRouter>
+    <Provider store={store}>
+      {/* <div>TEST</div> */}
+      <Particles params={particlesParams} />
+    </Provider>
+  </BrowserRouter>,
+  document.getElementById('root')
 );
