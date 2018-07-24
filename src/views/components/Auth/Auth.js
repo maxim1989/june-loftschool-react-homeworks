@@ -11,7 +11,7 @@ class Auth extends PureComponent {
     return (
       <div className="Auth">
         <div className="Logo">
-          <img src={Logo} alt="Logo" />
+          <img className="LogoPic" src={Logo} alt="Logo" />
         </div>
         <Formik
           initialValues={{
@@ -61,34 +61,59 @@ class Auth extends PureComponent {
             handleChange,
             isSubmitting
           }) => (
-            <form className="Auth-Form" onSubmit={handleSubmit}>
-              <input
-                className="Auth-Form-Field"
-                type="email"
-                name="email"
-                onChange={handleChange}
-                value={values.email}
-              />
-              {touched.email && errors.email && <div>{errors.email}</div>}
-              <input
-                className="Auth-Form-Field"
-                type="password"
-                name="password"
-                onChange={handleChange}
-                value={values.password}
-              />
-              {touched.password &&
-                errors.password && <div>{errors.password}</div>}
-              <button type="submit" disabled={isSubmitting}>
+            <form className="AuthForm" onSubmit={handleSubmit}>
+              <div className="AuthFormField_Login">
+                <input
+                  className="AuthFormField"
+                  type="email"
+                  name="email"
+                  onChange={handleChange}
+                  value={values.email}
+                  placeholder="email"
+                />
+                {touched.email &&
+                  errors.email && (
+                    <div className="AuthFormField__Error">{errors.email}</div>
+                  )}
+              </div>
+              <div className="AuthFormField_Password">
+                <input
+                  className="AuthFormField"
+                  type="password"
+                  name="password"
+                  onChange={handleChange}
+                  value={values.password}
+                  placeholder="password"
+                />
+                {touched.password &&
+                  errors.password && (
+                    <div className="AuthFormField__Error">
+                      {errors.password}
+                    </div>
+                  )}
+              </div>
+              <button
+                className="AuthFormSubmit"
+                type="submit"
+                disabled={isSubmitting}
+              >
                 Войти
+              </button>
+              <button
+                className="AuthFormSubmit"
+                type="submit"
+                disabled={isSubmitting}
+              >
+                Зарегистрироваться
               </button>
             </form>
           )}
         />
-        <div>
-          <p>
-            Впервые на сайте? <a>Регистрация</a>
-          </p>
+        <div className="AuthAction">
+          Впервые на сайте?&nbsp;<a className="AuthActionName">Регистрация</a>
+        </div>
+        <div className="AuthAction">
+          Уже зарегистрированы?&nbsp;<a className="AuthActionName">Войти</a>
         </div>
       </div>
     );

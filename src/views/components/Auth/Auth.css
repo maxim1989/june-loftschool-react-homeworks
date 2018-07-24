@@ -2,10 +2,94 @@
   width: 440px;
 }
 
-.Auth-Form {
-  
+.Logo {
+  display: flex;
+  justify-content: center;
 }
 
-.Auth-Form-Field {
-  width: 100%;
+.LogoPic {
+  width: 300px;
+  height: 144px;
+}
+
+.AuthForm {
+  width: 440px;
+  height: 250px;
+  border: 1px solid #c3c3c3;
+  background-color: #fff;
+  border-radius: 7px;
+  padding: 21px 20px 32px;
+  box-sizing: border-box;
+  box-shadow: 0px 0px 68px 4px rgba(0, 0, 0, 0.23);
+  margin-bottom: 23px;
+}
+
+.AuthFormField {
+  width: 400px;
+  height: 50px;
+  box-sizing: border-box;
+  margin-bottom: 23px;
+  border-radius: 7px;
+  border: 1px solid #dfdfdf;
+  padding: 16px 6px 16px 53px;
+  font-size: 18px;
+}
+
+.AuthFormField_Login,
+.AuthFormField_Password {
+  position: relative;
+}
+
+.AuthFormField_Login::before {
+  content: ' ';
+  position: absolute;
+  background-image: url(./assets/user-shape.png);
+  width: 19px;
+  height: 19px;
+  top: 15px;
+  left: 15px;
+}
+
+.AuthFormField_Password::before {
+  content: ' ';
+  position: absolute;
+  background-image: url(./assets/padlock-unlock.png);
+  width: 19px;
+  height: 19px;
+  top: 15px;
+  left: 15px;
+}
+
+.AuthFormSubmit {
+  background-color: #4db6e2;
+  color: #fff;
+  border: none;
+  font-size: 22px;
+  padding: 12px 0;
+  font-weight: 300;
+  letter-spacing: 1.1px;
+  cursor: pointer;
+  width: 400px;
+}
+
+.AuthAction {
+  width: 440px;
+  height: 55px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.AuthActionName {
+  cursor: pointer;
+  color: #4db6e2;
+  text-decoration: underline;
+}
+
+.AuthFormField__Error {
+  position: absolute;
+  top: 15px;
+  left: 450px;
+  font-size: 20px;
+  color: red;
 }
