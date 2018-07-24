@@ -13,8 +13,14 @@ import {
 import './AppRouter.css';
 
 class AppRouter extends Component {
-  onSubmit = ({ email, password }) => {
-    console.log('AppRouter onSubmit');
+  onRegistrationSubmit = ({ email, password }) => {
+    console.log('AppRouter onRegistrationSubmit');
+    console.log('email =', email);
+    console.log('password =', password);
+  };
+
+  onEnterSubmit = ({ email, password }) => {
+    console.log('AppRouter onEnterSubmit');
     console.log('email =', email);
     console.log('password =', password);
   };
@@ -28,7 +34,13 @@ class AppRouter extends Component {
           <Route
             exact
             path="/"
-            render={props => <Auth {...props} onSubmit={this.onSubmit} />}
+            render={props => (
+              <Auth
+                {...props}
+                onRegistrationSubmit={this.onRegistrationSubmit}
+                onEnterSubmit={this.onEnterSubmit}
+              />
+            )}
           />
           <PrivateRoute
             isAuthorized={isAuthorized}

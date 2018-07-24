@@ -5,8 +5,21 @@ import './Auth.css';
 import Logo from '../../assets/logo/Logo.svg';
 
 class Auth extends PureComponent {
+  state = {
+    hideRegister: true
+  };
+
+  onEnterClick = e => {
+    this.setState({ hideRegister: true });
+  };
+
+  onRegClick = e => {
+    this.setState({ hideRegister: false });
+  };
+
   render() {
-    const { onSubmit } = this.props;
+    const { onRegistrationSubmit, onEnterSubmit } = this.props,
+      { hideRegister } = this.state;
 
     return (
       <div className="Auth">
@@ -39,7 +52,9 @@ class Auth extends PureComponent {
           onSubmit={(values, actions) => {
             console.log('onSubmit');
             console.log('actions =', actions);
-            onSubmit(values);
+
+            onRegistrationSubmit(values);
+            onEnterSubmit(values);
             // LoginToMyApp(values).then(
             //   user => {
             //     setSubmitting(false);
@@ -92,29 +107,47 @@ class Auth extends PureComponent {
                     </div>
                   )}
               </div>
-              <button
-                className="AuthFormSubmit"
-                type="submit"
-                disabled={isSubmitting}
-              >
-                Войти
-              </button>
-              <button
-                className="AuthFormSubmit"
-                type="submit"
-                disabled={isSubmitting}
-              >
-                Зарегистрироваться
-              </button>
+              {!hideRegister && (
+                <button
+                  className="AuthFormSubmit"
+                  type="submit"
+                  disabled={isSubmitting}
+                >
+                  Войти
+                </button>
+              )}
+              {hideRegister && (
+                <button
+                  className="AuthFormSubmit"
+                  type="submit"
+                  disabled={isSubmitting}
+                >
+                  Зарегистрироваться
+                </button>
+              )}
             </form>
           )}
         />
-        <div className="AuthAction">
-          Впервые на сайте?&nbsp;<a className="AuthActionName">Регистрация</a>
-        </div>
-        <div className="AuthAction">
-          Уже зарегистрированы?&nbsp;<a className="AuthActionName">Войти</a>
-        </div>
+        {!hideRegister && (
+          <div className="AuthAction">
+            Впервые на сайте?&nbsp;<a
+              onClick={this.onEnterClick}
+              className="AuthActionName"
+            >
+              Регистрация
+            </a>
+          </div>
+        )}
+        {hideRegister && (
+          <div className="AuthAction">
+            Уже зарегистрированы?&nbsp;<a
+              onClick={this.onRegClick}
+              className="AuthActionName"
+            >
+              Войти
+            </a>
+          </div>
+        )}
       </div>
     );
   }
