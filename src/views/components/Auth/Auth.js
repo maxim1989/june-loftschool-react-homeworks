@@ -1,8 +1,12 @@
 import React, { PureComponent } from 'react';
 import { Formik } from 'formik';
+import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 
 import './Auth.css';
 import Logo from '../../assets/logo/Logo.svg';
+
+import { getRegistationError, getIsAuthorized } from '../../../modules/Auth';
 
 class Auth extends PureComponent {
   state = {
@@ -18,8 +22,17 @@ class Auth extends PureComponent {
   };
 
   render() {
-    const { onRegistrationSubmit, onEnterSubmit } = this.props,
+    const {
+        onRegistrationSubmit,
+        onEnterSubmit,
+        registationError,
+        isAuthorized
+      } = this.props,
       { hideRegister } = this.state;
+
+    if (isAuthorized) {
+      return <Redirect to="/profile" />;
+    }
 
     return (
       <div className="Auth">
@@ -50,11 +63,8 @@ class Auth extends PureComponent {
             return errors;
           }}
           onSubmit={(values, actions) => {
-            console.log('onSubmit');
-            console.log('actions =', actions);
-
-            onRegistrationSubmit(values);
-            onEnterSubmit(values);
+            !hideRegister && onRegistrationSubmit(values);
+            hideRegister && onEnterSubmit(values);
             // LoginToMyApp(values).then(
             //   user => {
             //     setSubmitting(false);
@@ -107,7 +117,10 @@ class Auth extends PureComponent {
                     </div>
                   )}
               </div>
-              {!hideRegister && (
+              {registationError && (
+                <p className="RegistrationError">{registationError}</p>
+              )}
+              {hideRegister && (
                 <button
                   className="AuthFormSubmit"
                   type="submit"
@@ -116,7 +129,7 @@ class Auth extends PureComponent {
                   Войти
                 </button>
               )}
-              {hideRegister && (
+              {!hideRegister && (
                 <button
                   className="AuthFormSubmit"
                   type="submit"
@@ -128,20 +141,20 @@ class Auth extends PureComponent {
             </form>
           )}
         />
-        {!hideRegister && (
+        {hideRegister && (
           <div className="AuthAction">
             Впервые на сайте?&nbsp;<a
-              onClick={this.onEnterClick}
+              onClick={this.onRegClick}
               className="AuthActionName"
             >
               Регистрация
             </a>
           </div>
         )}
-        {hideRegister && (
+        {!hideRegister && (
           <div className="AuthAction">
             Уже зарегистрированы?&nbsp;<a
-              onClick={this.onRegClick}
+              onClick={this.onEnterClick}
               className="AuthActionName"
             >
               Войти
@@ -153,4 +166,16 @@ class Auth extends PureComponent {
   }
 }
 
-export default Auth;
+export default connect(
+  state => {
+    return {
+      registationError: getRegistationError(state),
+      isAuthorized: getIsAuthorized(state)
+      // loginErrorReducer: getLoginError(state),
+      // registationError: getRegistationError(state)
+    };
+  },
+  dispatch => {
+    return {};
+  }
+)(Auth);

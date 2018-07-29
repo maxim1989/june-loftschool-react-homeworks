@@ -1,8 +1,8 @@
-export { authFlow } from './saga';
+export { authFlow, userRegisteration } from './saga';
 
 export { default } from './reducer';
 
-export { authorize, logout, loginError, registationError, registeration } from './actions';
+export { authorize, logout, loginError, registationError, registration } from './actions';
 
 export {
   getIsAuthorized,

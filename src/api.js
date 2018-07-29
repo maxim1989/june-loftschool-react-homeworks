@@ -28,7 +28,7 @@ export const login = ({ email, password }) =>
     return response;
   });
 
-export const registration = ({ email, password }) =>
+export const registrationRequest = ({ email, password }) =>
   instance.post('/users', `email=${email}&password=${password}`).then(response => {
     if (response.data.result === 'error') return Promise.reject(response);
     return response;

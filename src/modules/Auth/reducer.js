@@ -20,7 +20,7 @@ const loginErrorReducer = handleActions(
 
 const registationErrorReducer = handleActions(
   {
-    [registationError]: (_state, action) => action.payload
+    [registationError]: (_state, action) => action.payload.data.message.email[0]
   },
   null
 );

@@ -6,7 +6,8 @@ import PrivateRoute from '../PrivateRoute';
 import TradeOperations from '../TradeOperations';
 import Auth from '../Auth';
 import {
-  getIsAuthorized
+  getIsAuthorized,
+  registration
   // , getLoginError, getRegistationError
 } from '../../../modules/Auth';
 
@@ -14,9 +15,9 @@ import './AppRouter.css';
 
 class AppRouter extends Component {
   onRegistrationSubmit = ({ email, password }) => {
-    console.log('AppRouter onRegistrationSubmit');
-    console.log('email =', email);
-    console.log('password =', password);
+    const { registration } = this.props;
+
+    registration({ email, password });
   };
 
   onEnterSubmit = ({ email, password }) => {
@@ -62,7 +63,11 @@ export default withRouter(
         // loginErrorReducer: getLoginError(state),
         // registationError: getRegistationError(state)
       };
+    },
+    dispatch => {
+      return {
+        registration: payload => dispatch(registration(payload))
+      };
     }
-    // dispatch => {}
   )(AppRouter)
 );

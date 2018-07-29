@@ -1,6 +1,17 @@
 import { call, put, select, take, takeEvery } from 'redux-saga/effects';
-import { setTokenApi, clearTokenApi, registration, login } from '../../api';
-import { authorize, logout, registeration, getIsAuthorized } from '../Auth';
+import {
+  setTokenApi,
+  clearTokenApi,
+  registrationRequest,
+  login
+} from '../../api';
+import {
+  authorize,
+  logout,
+  registration,
+  getIsAuthorized,
+  registationError
+} from '../Auth';
 import {
   getTokenFromLocalStorage,
   setTokenToLocalStorage,
@@ -35,14 +46,20 @@ export function* authFlow() {
 
 function* registerationSaga(action) {
   try {
-    const response = yield call(getUserFollowers, action.payload);
+    const response = yield call(registrationRequest, action.payload);
 
-    yield put(successFollowers(response));
+    console.log('@@@@@@@@');
+    console.log('@@@@@@@@');
+    console.log('response =', response);
+    console.log('@@@@@@@@');
+    console.log('@@@@@@@@');
+    yield setTokenToLocalStorage(response.data.jwt);
+    yield put(authorize());
   } catch (error) {
-    yield put(failureFollowers(error.toString()));
+    yield put(registationError(error));
   }
 }
 
 export function* userRegisteration() {
-  yield takeEvery(registeration.toString(), registerationSaga);
+  yield takeEvery(registration.toString(), registerationSaga);
 }
