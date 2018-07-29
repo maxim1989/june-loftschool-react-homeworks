@@ -7,7 +7,8 @@ import TradeOperations from '../TradeOperations';
 import Auth from '../Auth';
 import {
   getIsAuthorized,
-  registration
+  registration,
+  authorizeRequest
   // , getLoginError, getRegistationError
 } from '../../../modules/Auth';
 
@@ -21,9 +22,12 @@ class AppRouter extends Component {
   };
 
   onEnterSubmit = ({ email, password }) => {
-    console.log('AppRouter onEnterSubmit');
-    console.log('email =', email);
-    console.log('password =', password);
+    console.log('onEnterSubmit');
+    console.log('email=', email);
+    console.log('password=', password);
+    const { authorizeRequest } = this.props;
+
+    authorizeRequest({ email, password });
   };
 
   render() {
@@ -66,7 +70,8 @@ export default withRouter(
     },
     dispatch => {
       return {
-        registration: payload => dispatch(registration(payload))
+        registration: payload => dispatch(registration(payload)),
+        authorizeRequest: payload => dispatch(authorizeRequest(payload))
       };
     }
   )(AppRouter)

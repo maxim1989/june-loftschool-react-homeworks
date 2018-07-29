@@ -6,7 +6,11 @@ import { Redirect } from 'react-router-dom';
 import './Auth.css';
 import Logo from '../../assets/logo/Logo.svg';
 
-import { getRegistationError, getIsAuthorized } from '../../../modules/Auth';
+import {
+  getRegistationError,
+  getIsAuthorized,
+  getLoginError
+} from '../../../modules/Auth';
 
 class Auth extends PureComponent {
   state = {
@@ -26,7 +30,8 @@ class Auth extends PureComponent {
         onRegistrationSubmit,
         onEnterSubmit,
         registationError,
-        isAuthorized
+        isAuthorized,
+        loginError
       } = this.props,
       { hideRegister } = this.state;
 
@@ -65,6 +70,7 @@ class Auth extends PureComponent {
           onSubmit={(values, actions) => {
             !hideRegister && onRegistrationSubmit(values);
             hideRegister && onEnterSubmit(values);
+            actions.setSubmitting(false);
             // LoginToMyApp(values).then(
             //   user => {
             //     setSubmitting(false);
@@ -120,6 +126,9 @@ class Auth extends PureComponent {
               {registationError && (
                 <p className="RegistrationError">{registationError}</p>
               )}
+              {loginError && (
+                <p className="RegistrationError">{loginError}</p>
+              )}
               {hideRegister && (
                 <button
                   className="AuthFormSubmit"
@@ -170,7 +179,8 @@ export default connect(
   state => {
     return {
       registationError: getRegistationError(state),
-      isAuthorized: getIsAuthorized(state)
+      isAuthorized: getIsAuthorized(state),
+      loginError: getLoginError(state)
       // loginErrorReducer: getLoginError(state),
       // registationError: getRegistationError(state)
     };

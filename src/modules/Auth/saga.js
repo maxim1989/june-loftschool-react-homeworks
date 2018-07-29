@@ -7,10 +7,12 @@ import {
 } from '../../api';
 import {
   authorize,
+  authorizeRequest,
   logout,
   registration,
   getIsAuthorized,
-  registationError
+  registationError,
+  loginError
 } from '../Auth';
 import {
   getTokenFromLocalStorage,
@@ -28,19 +30,40 @@ export function* authFlow() {
     if (!isAuthorized && localStorageToken) {
       token = localStorageToken;
       yield put(authorize());
+
+      if (token) {
+        yield call(setTokenApi, token);
+        yield call(setTokenToLocalStorage, token);
+      }
+
+      yield take(logout);
+
+      yield call(removeTokenFromLocalStorage);
+      yield call(clearTokenApi);
     } else {
-      const action = yield take(authorize);
+      const action = yield take(authorizeRequest);
 
-      token = action.payload;
+      token = null;
+
+      try {
+        const response = yield call(login, action.payload);
+
+        token = response.data.jwt;
+        yield put(authorize());
+
+        if (token) {
+          yield call(setTokenApi, token);
+          yield call(setTokenToLocalStorage, token);
+        }
+
+        yield take(logout);
+
+        yield call(removeTokenFromLocalStorage);
+        yield call(clearTokenApi);
+      } catch (error) {
+        yield put(loginError(error));
+      }
     }
-
-    yield call(setTokenApi, token);
-    yield call(setTokenToLocalStorage, token);
-
-    yield take(logout);
-
-    yield call(removeTokenFromLocalStorage);
-    yield call(clearTokenApi);
   }
 }
 
@@ -48,11 +71,6 @@ function* registerationSaga(action) {
   try {
     const response = yield call(registrationRequest, action.payload);
 
-    console.log('@@@@@@@@');
-    console.log('@@@@@@@@');
-    console.log('response =', response);
-    console.log('@@@@@@@@');
-    console.log('@@@@@@@@');
     yield setTokenToLocalStorage(response.data.jwt);
     yield put(authorize());
   } catch (error) {

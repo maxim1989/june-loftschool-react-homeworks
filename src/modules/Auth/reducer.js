@@ -13,7 +13,7 @@ const isAuthorized = handleActions(
 
 const loginErrorReducer = handleActions(
   {
-    [loginError]: (_state, action) => action.payload
+    [loginError]: (_state, action) => action.payload.data.message
   },
   null
 );
